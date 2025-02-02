@@ -1,29 +1,31 @@
-import { getPriceAsNumber } from "../../app/helpers/priceHelper";
+import { expect } from "@playwright/test";
 import { BasePage } from "./base.page";
+import { Price } from "../components/price.component";
 
 export class cPanelLicenses extends BasePage {
-  private getProductTileLocator = (productTitle: string) =>
-    this.page
-      .getByText(productTitle)
-      .locator(`//ancestor::div[@class = 'product clearfix']`);
+  private products = this.page.locator(".products .product");
 
-  private getOrderNowButtonLocator = (productTitle: string) =>
-    this.getProductTileLocator(productTitle).locator(`//a`);
-
-  private getProductPriceLocator = (productTitle: string) =>
-    this.getProductTileLocator(productTitle).locator(`.price`);
-
-  async goto() {
-    await super.goto("/store/cpanel-licenses");
+  async getProducts() {
+    await expect(
+      this.products.first(),
+      "Atleast one product must be visible"
+    ).toBeVisible();
+    return Promise.all(
+      (await this.products.all()).map(async (product, index) => ({
+        title: await product.locator("header").textContent(),
+        // TODO: Will be replaced with Licenses collection component
+        price: await new Price(product.locator(".price")).getPrice(),
+        index,
+      }))
+    );
   }
-
-  async orderProductByTitle(productTitle: string) {
-    await this.getProductPriceLocator(productTitle).waitFor();
-    const priceAsText = await this.getProductPriceLocator(
-      productTitle
-    ).textContent();
-    await this.getOrderNowButtonLocator(productTitle).click({ delay: 500 });
-
-    return getPriceAsNumber(priceAsText!);
+  async order(title: string) {
+    await this.products
+      .filter({ hasText: title })
+      .locator(`a.btn-order-now`)
+      .click();
+  }
+  async open() {
+    await this.page.goto("/store/cpanel-licenses");
   }
 }

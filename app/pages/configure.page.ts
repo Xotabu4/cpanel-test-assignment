@@ -23,7 +23,6 @@ export class Configure extends BasePage {
       .getByText(addonData.price.toString());
 
   async fillIpAddress(ipAddress: string) {
-    await this.page.waitForLoadState("load");
     await this.ipAddressLocator.fill(ipAddress);
     await this.ipAddressLocator.press("Enter");
   }

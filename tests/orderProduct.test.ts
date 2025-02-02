@@ -12,14 +12,11 @@ const addonData = {
 };
 
 test("order product", async ({ app }) => {
-  await app.cPanelLicenses.goto();
-
-  productData.price = await app.cPanelLicenses.orderProductByTitle(
-    productData.productTitle
-  );
-
+  await app.cPanelLicenses.open();
+  const orderedProduct = (await app.cPanelLicenses.getProducts())[0];
+  // TODO: fix type
+  await app.cPanelLicenses.order(orderedProduct.title as string);
   await app.configure.fillIpAddress("2.2.2.2");
-
   addonData.price = await app.configure.selectAddon(addonData.productTitle);
 
   await expect(
@@ -41,9 +38,7 @@ test("order product", async ({ app }) => {
     productData.productTitle
   );
 
-  const addonPrice = await app.review.getProductPrice(
-    addonData.productTitle
-  );
+  const addonPrice = await app.review.getProductPrice(addonData.productTitle);
   totalPrice = await app.configure.getTotalDueToday();
 
   expect(productData.price).toEqual(productPrice);
@@ -58,9 +53,7 @@ test("order product", async ({ app }) => {
     "Account Security",
     "Terms & Conditions",
   ]) {
-    await expect(
-      app.checkout.getCategoryByHeadingLocator(cat)
-    ).toBeVisible();
+    await expect(app.checkout.getCategoryByHeadingLocator(cat)).toBeVisible();
   }
 
   await expect(app.checkout.orderCompleteButtonLocator).toBeDisabled();
