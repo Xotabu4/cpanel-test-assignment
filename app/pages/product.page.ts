@@ -1,7 +1,7 @@
 import { getPriceAsNumber } from "../../app/helpers/priceHelper";
 import { BasePage } from "./base.page";
 
-export class Product extends BasePage {
+export class cPanelLicenses extends BasePage {
   private getProductTileLocator = (productTitle: string) =>
     this.page
       .getByText(productTitle)

@@ -20,7 +20,7 @@ export class Configure extends BasePage {
       .locator("#producttotal")
       .getByText(addonData.productTitle)
       .locator(`//ancestor::*[@class = 'clearfix']`)
-      .getByText(`${addonData.price}`);
+      .getByText(addonData.price.toString());
 
   async fillIpAddress(ipAddress: string) {
     await this.page.waitForLoadState("load");

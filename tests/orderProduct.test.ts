@@ -12,45 +12,45 @@ const addonData = {
 };
 
 test("order product", async ({ app }) => {
-  await app.productPage.goto();
+  await app.cPanelLicenses.goto();
 
-  productData.price = await app.productPage.orderProductByTitle(
+  productData.price = await app.cPanelLicenses.orderProductByTitle(
     productData.productTitle
   );
 
-  await app.configurePage.fillIpAddress("2.2.2.2");
+  await app.configure.fillIpAddress("2.2.2.2");
 
-  addonData.price = await app.configurePage.selectAddon(addonData.productTitle);
+  addonData.price = await app.configure.selectAddon(addonData.productTitle);
 
   await expect(
-    app.configurePage.getProductInSummaryLocator(productData)
+    app.configure.getProductInSummaryLocator(productData)
   ).toBeVisible();
 
   await expect(
-    app.configurePage.getProductInSummaryLocator(addonData)
+    app.configure.getProductInSummaryLocator(addonData)
   ).toBeVisible();
 
-  let totalPrice = await app.configurePage.getTotalDueToday();
+  let totalPrice = await app.configure.getTotalDueToday();
   expect((productData.price + addonData.price).toFixed(1)).toEqual(
     totalPrice.toFixed(1)
   );
 
-  await app.configurePage.clickContinue();
+  await app.configure.clickContinue();
 
-  const productPrice = await app.reviewPage.getProductPrice(
+  const productPrice = await app.review.getProductPrice(
     productData.productTitle
   );
 
-  const addonPrice = await app.reviewPage.getProductPrice(
+  const addonPrice = await app.review.getProductPrice(
     addonData.productTitle
   );
-  totalPrice = await app.configurePage.getTotalDueToday();
+  totalPrice = await app.configure.getTotalDueToday();
 
   expect(productData.price).toEqual(productPrice);
   expect(addonData.price).toEqual(addonPrice);
   expect((productPrice + addonPrice).toFixed(1)).toEqual(totalPrice.toFixed(1));
 
-  await app.reviewPage.clickCheckout();
+  await app.review.clickCheckout();
 
   for (const cat of [
     "Personal Information",
@@ -59,9 +59,9 @@ test("order product", async ({ app }) => {
     "Terms & Conditions",
   ]) {
     await expect(
-      app.checkoutPage.getCategoryByHeadingLocator(cat)
+      app.checkout.getCategoryByHeadingLocator(cat)
     ).toBeVisible();
   }
 
-  await expect(app.checkoutPage.orderCompleteButtonLocator).toBeDisabled();
+  await expect(app.checkout.orderCompleteButtonLocator).toBeDisabled();
 });
