@@ -2,11 +2,8 @@ import { Page } from "@playwright/test";
 
 export class BasePage {
   //header will be created
-  protected page: Page;
 
-  constructor(page: Page) {
-    this.page = page;
-  }
+  constructor(protected page: Page) {}
 
   protected async goto(url?: string) {
     url = url || "/";

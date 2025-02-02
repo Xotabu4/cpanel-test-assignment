@@ -1,7 +1,7 @@
-import { getPriceAsNumber } from "app/helpers/priceHelper";
-import { BasePage } from "./BasePage";
+import { getPriceAsNumber } from "../../app/helpers/priceHelper";
+import { BasePage } from "./base.page";
 
-export class ProductPage extends BasePage {
+export class Product extends BasePage {
   private getProductTileLocator = (productTitle: string) =>
     this.page
       .getByText(productTitle)
@@ -10,7 +10,7 @@ export class ProductPage extends BasePage {
   private getOrderNowButtonLocator = (productTitle: string) =>
     this.getProductTileLocator(productTitle).locator(`//a`);
 
-  private geProductPriceLocator = (productTitle: string) =>
+  private getProductPriceLocator = (productTitle: string) =>
     this.getProductTileLocator(productTitle).locator(`.price`);
 
   async goto() {
@@ -18,8 +18,8 @@ export class ProductPage extends BasePage {
   }
 
   async orderProductByTitle(productTitle: string) {
-    await this.geProductPriceLocator(productTitle).waitFor();
-    const priceAsText = await this.geProductPriceLocator(
+    await this.getProductPriceLocator(productTitle).waitFor();
+    const priceAsText = await this.getProductPriceLocator(
       productTitle
     ).textContent();
     await this.getOrderNowButtonLocator(productTitle).click({ delay: 500 });

@@ -1,12 +1,9 @@
-import { Locator } from "@playwright/test";
-import { BasePage } from "./BasePage";
-import { getPriceAsNumber } from "app/helpers/priceHelper";
+import { BasePage } from "./base.page";
+import { getPriceAsNumber } from "../../app/helpers/priceHelper";
 
-export class ConfigurePage extends BasePage {
-  private ipAddressLocator: Locator = this.page.locator("#customfield11");
-  private continueLocator: Locator = this.page.locator(
-    "#btnCompleteProductConfig"
-  );
+export class Configure extends BasePage {
+  private ipAddressLocator = this.page.locator("#customfield11");
+  private continueLocator = this.page.locator("#btnCompleteProductConfig");
 
   private getAddonLocatorByText = (text: string) => this.page.getByText(text);
   private getAddonPriceLocator = (text: string) =>

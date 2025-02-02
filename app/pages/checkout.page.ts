@@ -1,6 +1,6 @@
-import { BasePage } from "./BasePage";
+import { BasePage } from "./base.page";
 
-export class CheckoutPage extends BasePage {
+export class Checkout extends BasePage {
   getCategoryByHeadingLocator = (heading: string) =>
     this.page.locator(".sub-heading").getByText(heading);
 

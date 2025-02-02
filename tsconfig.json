@@ -12,11 +12,6 @@
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
     "types": ["node"],
-    "baseUrl": "./",
-    "noImplicitAny": false,
-    "paths": {
-      "@pages/*": ["app/pages/*"],
-      "@fixtures/*": ["tests/fixtures/*"]
-    }
+    "noImplicitAny": false
   }
 }

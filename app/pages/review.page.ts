@@ -1,8 +1,8 @@
 import { Locator } from "@playwright/test";
-import { BasePage } from "./BasePage";
-import { getPriceAsNumber } from "app/helpers/priceHelper";
+import { BasePage } from "./base.page";
+import { getPriceAsNumber } from "../../app/helpers/priceHelper";
 
-export class ReviewPage extends BasePage {
+export class Review extends BasePage {
   private checkoutLocator: Locator = this.page.locator("#checkout");
 
   private getProductItemLocator = (title: string) =>
